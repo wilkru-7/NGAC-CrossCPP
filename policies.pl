@@ -523,33 +523,4 @@ policy('Policy (bb)','File Management 1', [
 	associate('Alice',[r,w],'o2')
 	]).
 
-/* ------ OWN EXAMPLES ------ */
-policy('Example Policy 1','Booking lifts', [
-	user('u1'),
-	user('u2'),
-	user_attribute('Company1'),
-	user_attribute('Company2'),
-	user_attribute('Companies'),
-	object('o1'),
-	object('o2'),
-	object_attribute('Lifts'),
-	object_attribute('Bob Home'),
-	policy_class('Booking lifts'),
-	connector('PM'),
-	assign('u1','Alice'),
-	assign('u2','Bob'),
-	assign('Alice','Users'),
-	assign('Bob','Users'),
-	assign('o2','Proposals'),
-	assign('o3','Reports'),
-	assign('o4','Reports'),
-	assign('Proposals','Bob Home'),
-	assign('Reports','Bob Home'),
-	assign('Users','File Management 1'),
-	assign('Bob Home','File Management 1'),
-        assign('File Management 1','PM'),
-	operation(r,'File'),
-	operation(w,'File'),
-	associate('Bob',[r,w],'Bob Home'),
-	associate('Alice',[r,w],'o2')
-	]).
+/* ------ OUR EXAMPLES ------ */
