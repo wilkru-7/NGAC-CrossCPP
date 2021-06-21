@@ -523,8 +523,7 @@ policy('Policy (bb)','File Management 1', [
 	]).
 
 policy('example1', 'Book Lifts', [
-	%conditions([is_weekday]),
-	conditions([is_weekday, current_day_is_one_of(list)]),
+	conditions([current_day_is_one_of(list)]),
 	user('u1'),
 	user('u2'),
 
@@ -537,9 +536,6 @@ policy('example1', 'Book Lifts', [
 	object('o3'),
 
 	object_attribute('Lifts'),
-	object_attribute('Sites'),
-	%object_attribute('Site_A'),
-	%object_attribute('Site_B'),
 
 	policy_class('Book Lifts'),
 	connector('PM'),
@@ -549,32 +545,25 @@ policy('example1', 'Book Lifts', [
 	assign('Alice','Users'),
 	assign('Bob','Users'),
 
-	%assign('Alice', 'Site_A'),
-	
 	assign('o1','Lifts'),
 	assign('o2','Lifts'),
 	assign('o3','Lifts'),
 
-	%assign('Site_A','Sites'),
-	%assign('Site_B','Sites'),
-	%assign('o1', 'Site_A'),
 	assign('Users','Book Lifts'),
 	assign('Lifts','Book Lifts'),
-	%assign('Sites','Book Lifts'),
+
     assign('Book Lifts','PM'),
 
 	operation(book,'Lift'),
-	%operation(w,'File'),
+
 	cond( current_day_is_one_of(['Monday','Tuesday','Wednesday','Thursday','Friday']),
 		associate('Alice',[book],'o2') ),
-	%cond( is_same_site(),
-	%	associate('Alice',[book],'o2') ),
+
 	associate('Bob',[book],'Lifts')
 	
 ]).
 
 policy('example2', 'Book Lifts Business Hours', [
-	%conditions([is_weekday]),
 	conditions([is_business_hours]),
 	user('u1'),
 	user('u2'),
@@ -608,11 +597,10 @@ policy('example2', 'Book Lifts Business Hours', [
     assign('Book Lifts Business Hours','PM'),
 
 	operation(book,'Lift'),
-	%operation(w,'File'),
+
 	cond( is_business_hours,
 		associate('Alice',[book],'o2') ),
-	%cond( is_same_site(),
-	%	associate('Alice',[book],'o2') ),
+
 	associate('Bob',[book],'Lifts')
 ]).
 
@@ -663,6 +651,9 @@ policy('example3', 'Book Lifts Same Site', [
 
 	cond( is_same_site(_, _),
 		associate('Users',[book],'Lifts'))
+
+	/*cond( is_same_site(User, Lift),
+		associate('Users',[book],'Lifts'))*/
 ]).
 
 
