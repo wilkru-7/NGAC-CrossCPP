@@ -4,7 +4,8 @@
 
 :- use_module([dpl,dpl_conditions]).
 
-:- include('TEST/pdp_test').
+%:- include('TEST/pdp_test').
+:- include('TEST/our_test').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % access_check/2 is the standard query triple (U,A,O) under policy P
