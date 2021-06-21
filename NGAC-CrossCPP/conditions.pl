@@ -35,6 +35,7 @@ condition_predicate(is_weekday, []).
 condition_predicate(is_business, []).
 condition_predicate(current_day_is_one_of, [list]).
 condition_predicate(is_business_hours, []).
+condition_predicate(is_same_site, [name, name]).
 %condition_predicate(not_lockdown, []).
 %
 
@@ -63,5 +64,6 @@ is_business_hours :-
     condition_variable_value(hour_now, Hour),
     Hour =< 12, Hour >= 7.
 
-
+% is_same_site(Site_User, Site_Object).
+is_same_site(Site, Site).
 
