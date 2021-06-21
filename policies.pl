@@ -22,15 +22,15 @@ policy('Policy (a)','Project Access', [
 	user('u1'),
 	user('u2'),
 	user_attribute('Group1'),
-        user_attribute('Group2'),
-        user_attribute('Division'),
+    user_attribute('Group2'),
+    user_attribute('Division'),
 	object('o1'),
-        object('o2'),
-        object('o3'),
-        object_attribute('Project1'),
-        object_attribute('Project2'),
-        object_attribute('Gr2-Secret'),
-        object_attribute('Projects'),
+	object('o2'),
+	object('o3'),
+	object_attribute('Project1'),
+	object_attribute('Project2'),
+	object_attribute('Gr2-Secret'),
+	object_attribute('Projects'),
 	policy_class('Project Access'),
 	connector('PM'),
 	assign('u1','Group1'),
@@ -45,7 +45,7 @@ policy('Policy (a)','Project Access', [
 	assign('Division','Project Access'),
 	assign('Projects','Project Access'),
 	assign('Gr2-Secret','Project Access'),
-        assign('Project Access','PM'),
+    assign('Project Access','PM'),
 	operation(r,'File'),
 	operation(w,'File'),
 	associate('Group1',[w],'Project1'),
@@ -79,7 +79,7 @@ policy('Policy (b)','File Management', [
 	assign('Reports','Bob Home'),
 	assign('Users','File Management'),
 	assign('Bob Home','File Management'),
-        assign('File Management','PM'),
+    assign('File Management','PM'),
 	operation(r,'File'),
 	operation(w,'File'),
 	associate('Bob',[r,w],'Bob Home'),
@@ -173,12 +173,11 @@ policy('Signals Access Policy','Signals Access', [
 
 policy('Vehicle Ownership Policy','Vehicle Ownership', [
 	user('Sebastian'),
-        user('Ana'),
+    user('Ana'),
 
 	user_attribute('Scholze Family'),
-        user_attribute('Correia Family'),
-
-        user_attribute('Owners'),
+    user_attribute('Correia Family'),
+    user_attribute('Owners'),
 
 	object('VIN-1001 Shift Signals'),
 	object('VIN-1001 Window Signals'),
@@ -523,4 +522,100 @@ policy('Policy (bb)','File Management 1', [
 	associate('Alice',[r,w],'o2')
 	]).
 
-/* ------ OUR EXAMPLES ------ */
+policy('example1', 'Book Lifts', [
+	%conditions([is_weekday]),
+	conditions([is_weekday, current_day_is_one_of(list)]),
+	user('u1'),
+	user('u2'),
+
+	user_attribute('Alice'),
+	user_attribute('Bob'),
+	user_attribute('Users'),
+
+	object('o1'),
+	object('o2'),
+	object('o3'),
+
+	object_attribute('Lifts'),
+	object_attribute('Sites'),
+	%object_attribute('Site_A'),
+	%object_attribute('Site_B'),
+
+	policy_class('Book Lifts'),
+	connector('PM'),
+
+	assign('u1','Alice'),
+	assign('u2','Bob'),
+	assign('Alice','Users'),
+	assign('Bob','Users'),
+
+	%assign('Alice', 'Site_A'),
+	
+	assign('o1','Lifts'),
+	assign('o2','Lifts'),
+	assign('o3','Lifts'),
+
+	%assign('Site_A','Sites'),
+	%assign('Site_B','Sites'),
+	%assign('o1', 'Site_A'),
+	assign('Users','Book Lifts'),
+	assign('Lifts','Book Lifts'),
+	%assign('Sites','Book Lifts'),
+    assign('Book Lifts','PM'),
+
+	operation(book,'Lift'),
+	%operation(w,'File'),
+	cond( current_day_is_one_of(['Monday','Tuesday','Wednesday','Thursday','Friday']),
+		associate('Alice',[book],'o2') ),
+	%cond( is_same_site(),
+	%	associate('Alice',[book],'o2') ),
+	associate('Bob',[book],'Lifts')
+	
+]).
+
+policy('example2', 'Book Lifts Business Hours', [
+	%conditions([is_weekday]),
+	conditions([is_business_hours]),
+	user('u1'),
+	user('u2'),
+
+	user_attribute('Alice'),
+	user_attribute('Bob'),
+	user_attribute('Users'),
+
+	object('o1'),
+	object('o2'),
+	object('o3'),
+
+	object_attribute('Lifts'),
+	object_attribute('Sites'),
+
+	policy_class('Book Lifts Business Hours'),
+	connector('PM'),
+
+	assign('u1','Alice'),
+	assign('u2','Bob'),
+	assign('Alice','Users'),
+	assign('Bob','Users'),
+
+	assign('o1','Lifts'),
+	assign('o2','Lifts'),
+	assign('o3','Lifts'),
+
+	assign('Users','Book Lifts Business Hours'),
+	assign('Lifts','Book Lifts Business Hours'),
+
+    assign('Book Lifts Business Hours','PM'),
+
+	operation(book,'Lift'),
+	%operation(w,'File'),
+	cond( is_business_hours,
+		associate('Alice',[book],'o2') ),
+	%cond( is_same_site(),
+	%	associate('Alice',[book],'o2') ),
+	associate('Bob',[book],'Lifts')
+	
+]).
+
+
+

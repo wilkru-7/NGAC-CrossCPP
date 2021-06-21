@@ -3,7 +3,7 @@
 %   condition_variable(VariableName : VariableType)
 %   Type is one of: list, boolean, number, name
 
-%condition_variable(weekday:boolean).
+condition_variable(weekday:boolean).
 condition_variable(business:boolean).
 
 %condition_variable(condVar1:number).
@@ -34,6 +34,7 @@ condition_variable(laMax:number).
 condition_predicate(is_weekday, []).
 condition_predicate(is_business, []).
 condition_predicate(current_day_is_one_of, [list]).
+condition_predicate(is_business_hours, []).
 %condition_predicate(not_lockdown, []).
 %
 
@@ -57,4 +58,10 @@ is_business :-
 current_day_is_one_of(SetOfDays) :-
     condition_variable_value(day_now,Today),
     memberchk(Today,SetOfDays).
+
+is_business_hours :-
+    condition_variable_value(hour_now, Hour),
+    Hour =< 12, Hour >= 7.
+
+
 
