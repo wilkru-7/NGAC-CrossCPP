@@ -62,7 +62,7 @@ current_day_is_one_of(SetOfDays) :-
 
 is_business_hours :-
     condition_variable_value(hour_now, Hour),
-    Hour =< 12, Hour >= 7.
+    Hour =< 18, Hour >= 7.
 
 % is_same_site(Site_User, Site_Object).
 is_same_site(Site, Site).
