@@ -605,7 +605,6 @@ policy('example2', 'Book Lifts Business Hours', [
 ]).
 
 policy('example3', 'Book Lifts Same Site', [
-	%conditions([is_weekday]),
 	conditions([is_same_site]),
 	user('u1'),
 	user('u2'),

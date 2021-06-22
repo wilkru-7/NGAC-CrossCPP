@@ -204,3 +204,61 @@ proc(autocomb, [
 	 access('Combined Policy', ('Ana',w,'VIN-3001 Trip Signals'))
      ]).
 
+proc(example2, [
+	 import(policy('POLICIES/example2.pl')),
+	 access('example2', ('u1',book,'o2')), % Returns grant or deny
+	 %user('o1'), % Not working
+	 %user(object,mode), % Not working
+	 aoa('u1'), % Return objects user is allowed to do action on ([book])
+	 aua('o1') % Return users allowed to do action ([book]) on object (Return both Bob and u2 (same user))
+     ]).
+
+proc(example3, [
+	 import(policy('POLICIES/example3.pl')), % Imports policy from file and sets it as current policy
+	 access('example3', ('u1',book,'o2'), is_same_site('SiteA', 'SiteA')), % Returns grant or deny
+	 access('example3', ('u1',book,'o2')), % Conditional policies expecting argument returns deny if not given
+	 %aoa('u1'), % Not working for policy requiring condition argument
+	 %aua('o1'), % Not working for policy requiring condition argument
+	 conditions, % Displays ALL conditions existing, not the one used, can have arguments ‘predefined’, ‘static’, ‘dynamic’, a user-defined condition group, or ‘all’
+	 echo('Prints line'),
+	 nl, % Prints empty line
+	 getpol, % Return name of current policy
+	 %halt % Closes the policy tool and swipl
+	 %help % Returns all commands available
+	 help('aoa'), % Returns desciption of command 
+	 % policy_graph % Not working
+	 % policy_graph( <policy name> ) % Not working
+	 % policy_graph( <policy name>, <file base name> ) % Not working
+	 policy_spec, % Prints out whole policy
+	 % policy_spec( <policy name> ) % Displays another policy
+	 % policy_spec( <policy name>, <file base name>, [silent]) % Prints policy to file
+	 %users('o1', book), % Not working for condtional policy
+	 %users('o1', book, is_same_site), % CAN NOT GET TO WORK
+	 setpol('example2'), % Change policy
+	 access('example2', ('u1',book,'o2')),
+	 version, % Displays current version
+	 versions, % Displays all versions
+	 users('o1'), % Returns users that have access to object and access mode [(u2,[book])]
+	 users('o1', book)
+     ]).
+
+/* Methods not tested yet */
+% activate_erp( <er package name> ).
+% admin.
+% advanced.
+% combine( <policy name 1>, <policy name 2>, <combined policy name> ).
+% current_erp.
+% deactivate_erp( <er package name> ).
+% epp(<port>).
+% epp(<port>, <token>).
+% load_cond( <cond file> ).
+% load_cond( <cond file>, <condition name> ).
+% load_erf( <erp file> ).
+% unload_erp( <er package name> )
+
+% script( <file name> [, step] ).
+% script( <file name> [, verbose] ).
+% server( <port >, <admin token> ).
+% server( <port >, <admin token>, <epp token> ).
+% time( <ngac command> ).
+% time( <ngac command>, <reps> ).
