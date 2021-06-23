@@ -557,7 +557,8 @@ policy('example1', 'Book Lifts', [
 	operation(book,'Lift'),
 
 	cond( current_day_is_one_of(['Monday','Tuesday','Wednesday','Thursday','Friday']),
-		associate('Alice',[book],'o2') ),
+		[associate('Alice',[book],'o2'),
+		associate('Alice',[book],'o3')]  ),
 
 	associate('Bob',[book],'Lifts')
 	
