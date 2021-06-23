@@ -1,5 +1,5 @@
 policy('example2', 'Book Lifts Business Hours', [
-	conditions([is_business_hours]),
+	%conditions([is_business_hours]),
 	user('u1'),
 	user('u2'),
 

@@ -242,6 +242,20 @@ proc(example3, [
 	 users('o1', book)
      ]).
 
+proc(combine_examples, [
+import(policy('POLICIES/example2.pl')),
+import(policy('POLICIES/example3.pl')),
+combine('example2', 'example3', 'combined_examples'),
+setpol('combined_examples'),
+access('combined_examples', ('u1', book, 'o1')),
+access('combined_examples', ('u1', book, 'o2')),
+access('combined_examples', ('u2', book, 'o1')),
+access('combined_examples', ('u2', book, 'o2')),
+access('combined_examples', ('u1', book, 'o2'), is_same_site('SiteA', 'SiteA')),
+access('combined_examples', ('u1', book, 'o2'), is_same_site('SiteA', 'SiteB')),
+access('combined_examples', ('u2', book, 'o2'), is_same_site('SiteA', 'SiteA')),
+access('combined_examples', ('u2', book, 'o2'), is_same_site('SiteA', 'SiteB'))
+]).
 /* Methods not tested yet */
 % activate_erp( <er package name> ).
 % admin.

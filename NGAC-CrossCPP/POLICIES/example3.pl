@@ -1,5 +1,5 @@
 policy('example3', 'Book Lifts Same Site', [
-	conditions([is_same_site]),
+	%conditions([is_same_site]),
 	user('u1'),
 	user('u2'),
 
