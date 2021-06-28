@@ -796,6 +796,50 @@ policy(test9,'test9', [
 	associate('GroupA',[book],'SiteA'),
 	associate('GroupB',[book],'SiteB'),
 	associate('GroupC',[book],'Sites')
-
-
   ]).
+
+policy(objects, 'Defining Objects', [
+	object('o1'),
+	object('o2'),
+
+	object_attribute('Sites'),
+	object_attribute('SiteA'),
+	object_attribute('SiteB'),
+
+	policy_class('Defining'),
+	connector('PM'),
+
+	assign('o1', 'SiteA'),
+	assign('o2', 'SiteB'),
+
+	assign('SiteA', 'Sites'),
+	assign('SiteB', 'Sites'),
+
+	assign('Sites', 'Defining'),
+	%assign('Sites', 'PM'),
+	assign('Defining', 'PM')
+	]).
+
+policy(associates, 'Defining Operations', [
+	policy_class('Defining'),
+	connector('PM'),
+
+	assign('Defining', 'PM'),
+
+	associate('GroupA',[book],'SiteA'),
+	associate('GroupB',[book],'SiteB'),
+	associate('GroupC',[book],'Sites')
+	]).
+
+policy(cond_associates, 'Defining conditional operations', [
+	conditions([is_same_site(name, name)]),
+	% policy_class('Defining'),
+	% connector('PM'),
+
+	% assign('Defining', 'PM'),
+
+	cond(is_same_site(location_user, location_object), [
+		associate('GroupA',[book],'SiteA'),
+		associate('GroupB',[book],'SiteB'),
+		associate('GroupC',[book],'Sites')])
+	]).
