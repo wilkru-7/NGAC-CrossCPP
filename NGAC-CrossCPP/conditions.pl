@@ -5,7 +5,9 @@
 
 condition_variable(weekday:boolean).
 condition_variable(business:boolean).
-
+condition_variable(location_user:name).
+condition_variable(location_object:name).
+%condition_variable(is_business_hours:boolean).
 %condition_variable(condVar1:number).
 %condition_variable(condVar2:name).
 %condition_variable(condVar3:boolean).
