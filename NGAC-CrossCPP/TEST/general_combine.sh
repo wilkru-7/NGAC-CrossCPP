@@ -53,6 +53,27 @@ curl -s "http://127.0.0.1:8001/pqapi/access?user=u4&object=o2&ar=book"
 curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o2&ar=book"
 curl -s "http://127.0.0.1:8001/pqapi/access?user=u2&object=o1&ar=book"
 
+echo 'Combining policies - Example 4 (Users + Location)'
+curl -s "http://127.0.0.1:8001/paapi/combinepol?policy1=users&policy2=location&combined=combined_policies&token=admin_token"
+
+echo '\nSet the policy to combined policy '
+curl -s -G "http://127.0.0.1:8001/paapi/setpol?policy=combined_policies" --data-urlencode "token=admin_token"
+
+echo '\nSet Access query - G G G G G G D D D D D'
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o1&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u2&object=o2&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u3&object=o1&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u3&object=o2&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u4&object=o1&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u4&object=o2&ar=book&cond=is_same_site(siteA,_)"
+
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o2&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u2&object=o1&ar=book&cond=is_same_site(siteA,_)"
+
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o1&ar=book&cond=\[location_user=siteB,location_object=siteA\]"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u3&object=o1&ar=book&cond=\[location_user=siteA\]"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u3&object=o1&ar=book"
+
 echo 'Combining policies - Example 3 (Users + Objects + Associates Condition)'
 curl -s "http://127.0.0.1:8001/paapi/combinepol?policy1=users&policy2=objects&combined=temp&token=admin_token"
 curl -s "http://127.0.0.1:8001/paapi/combinepol?policy1=temp&policy2=cond_associates&combined=combined_policies&token=admin_token"
@@ -60,17 +81,19 @@ curl -s "http://127.0.0.1:8001/paapi/combinepol?policy1=temp&policy2=cond_associ
 echo '\nSet the policy to combined policy '
 curl -s -G "http://127.0.0.1:8001/paapi/setpol?policy=combined_policies" --data-urlencode "token=admin_token"
 
-echo '\nSet Access query - G G G G G G D D D D D'
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o1&ar=book&cond=\[location_user=siteA,location_object=siteA\]"
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u2&object=o2&ar=book&cond=\[location_user=siteA,location_object=siteA\]"
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u3&object=o1&ar=book&cond=\[location_user=siteA,location_object=siteA\]"
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u3&object=o2&ar=book&cond=\[location_user=siteA,location_object=siteA\]"
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u4&object=o1&ar=book&cond=\[location_user=siteA,location_object=siteA\]"
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u4&object=o2&ar=book&cond=\[location_user=siteA,location_object=siteA\]"
+echo '\nSet Access query - G G D D D D D D D D D D '
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o1&ar=book&cond=is_same_site(siteA,siteB)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o1&ar=book&cond=is_same_site(siteA,_)"
 
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o2&ar=book&cond=\[location_user=siteA,location_object=siteA\]"
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u2&object=o1&ar=book&cond=\[location_user=siteA,location_object=siteA\]"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u2&object=o2&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u3&object=o1&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u3&object=o2&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u4&object=o1&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u4&object=o2&ar=book&cond=is_same_site(siteA,_)"
 
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o1&ar=book&cond=\[location_user=siteB,location_object=siteA\]"
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u3&object=o1&ar=book&cond=\[location_user=siteA\]"
-curl -s "http://127.0.0.1:8001/pqapi/access?user=u3&object=o1&ar=book"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o2&ar=book&cond=is_same_site(siteA,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u2&object=o1&ar=book&cond=is_same_site(siteA,_)"
+
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o1&ar=book&cond=is_same_site(siteB,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o1&ar=book&cond=is_same_site(_,_)"
+curl -s "http://127.0.0.1:8001/pqapi/access?user=u1&object=o1&ar=book"

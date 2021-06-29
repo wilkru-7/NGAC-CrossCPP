@@ -694,6 +694,7 @@ policy('example3b', 'Book Lifts Same Site - Cond var', [
 
 	operation(book,'Lift'),
 
+	%cond(is_same_site(_,_),
 	cond(is_same_site(location_user, location_object),
 		associate('Users',[book],'Lifts'))
 
@@ -869,4 +870,24 @@ policy(general_cond, 'Defining Objects Cond', [
 		associate('GroupA',[book],'SiteA'),
 		associate('GroupB',[book],'SiteB'),
 		associate('GroupC',[book],'Sites')])
+	]).
+
+policy(location, 'Policy for location', [
+	object('o1'),
+
+	object_attribute('Sites'),
+	object_attribute('SiteA'),
+
+	policy_class('Defining'),
+	connector('PM'),
+
+	assign('o1', 'SiteA'),
+
+	assign('SiteA', 'Sites'),
+
+	assign('Sites', 'Defining'),
+	assign('Defining', 'PM'),
+	
+	cond(is_same_site(_, siteA), [
+		associate('GroupA',[book],'SiteA')])
 	]).
