@@ -838,7 +838,7 @@ policy(cond_associates, 'Defining conditional operations', [
 
 	% assign('Defining', 'PM'),
 
-	cond(is_same_site(location_user, location_object), [
+	cond(is_same_site(_, _), [
 		associate('GroupA',[book],'SiteA'),
 		associate('GroupB',[book],'SiteB'),
 		associate('GroupC',[book],'Sites')])
