@@ -20,8 +20,6 @@ er_package(er_example1, [
     ]),
     er( 
         ev_pat(user(any), policy_class(any), operation(add_assignment), object(any)), [
-            %user_attribute('admin'),
-            %assign(u1, admin)
             addm(example3,[
                 user_attribute(admin),
                 assign(u1, admin)
