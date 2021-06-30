@@ -68,4 +68,6 @@ is_business_hours :-
 
 % is_same_site(Site_User, Site_Object).
 is_same_site(Site, Site).
+%is_same_site(location(User, Site), location(Object, Site)).
+%is_same_site(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).
 
