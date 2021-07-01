@@ -264,10 +264,10 @@ access('combine', ('u1', book, 'o1')),
 access('combine', ('u1', book, 'o2')),
 access('combine', ('u2', book, 'o1')),
 access('combine', ('u2', book, 'o2')),
-access('combine', ('u1', book, 'o1'), is_same_site2("u1", "o1")),
-access('combine', ('u1', book, 'o2'), is_same_site2("u1", "o2")),
-access('combine', ('u2', book, 'o1'), is_same_site2("u2", "o1")),
-access('combine', ('u2', book, 'o2'), is_same_site2("u2", "o2"))
+access('combine', ('u1', book, 'o1'), is_same_site2('"u1"', '"o1"')),
+access('combine', ('u2', book, 'o2'), is_same_site2('"u2"', '"o2"')),
+access('combine', ('u3', book, 'o2'), is_same_site2('"u3"', '"o2"')),
+access('combine', ('u4', book, 'o2'), is_same_site2('"u4"', '"o2"'))
 ]).
 
 % proc(combine, User, Object, [

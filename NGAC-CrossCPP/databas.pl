@@ -20,11 +20,11 @@ user_json('{
     },
     {
         "id":"u3",
-        "location":"siteC"
+        "location":"siteB"
     },
     {
         "id":"u4",
-        "location":"siteC"
+        "location":"siteB"
     }]
 }
 ').
@@ -49,28 +49,34 @@ object_json('{
 /*  Takes Json and Converts it to a list containing user and location
     Form:
         user(id, location) */
-getUsers(Users) :-
+getUsers(Users2) :-
     user_json(Json), 
     atom_json_dict(Json, Dict, [default_tag(user)]),
-    dicts_to_compounds(Dict.users, [id, location], dict_fill(null), Users).
+    dicts_to_compounds(Dict.users, [id, location], dict_fill(null), Users),
+    newList(Users, Users2).
+
 
 % Loop through users and return location for given user if existing.
 getLocation(User, [user(User, Location)|_], Location):- !.
 getLocation(User, [_|T], Location) :- getLocation(User, T, Location).
 
 % Return location for given user.
-getUserLocation(User, Location) :- getUsers(Users), getLocation(User, Users, Location).
+getUserLocation(User, Location) :-  getUsers(Users), getLocation(User, Users, Location).
 
 /*  Takes Json and Converts it to a list containing object and location
     Form:
         object(id, location) */
-getObjects(Objects) :-
+getObjects(Objects2) :-
     object_json(Json), 
     atom_json_dict(Json, Dict, [default_tag(object)]),
-    dicts_to_compounds(Dict.objects, [id, location], dict_fill(null), Objects).
+    dicts_to_compounds(Dict.objects, [id, location], dict_fill(null), Objects),
+    newList(Objects, Objects2).
 
 getLocationObject(Object, [object(Object, Location)|_], Location):- !.
 getLocationObject(Object, [_|T], Location) :- getLocationObject(Object, T, Location).
 
 getObjectLocation(Object, Location) :- getObjects(Objects), getLocationObject(Object, Objects, Location).
 
+newList([],[]).
+newList([user(X, Y)|T], [user(X2, Y2)|T2]) :- term_to_atom(X, X2), term_to_atom(Y,Y2), newList(T,T2).
+newList([object(X, Y)|T], [object(X2, Y2)|T2]) :- term_to_atom(X, X2), term_to_atom(Y,Y2), newList(T,T2).

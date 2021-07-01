@@ -40,6 +40,7 @@ condition_predicate(is_business, []).
 condition_predicate(current_day_is_one_of, [list]).
 condition_predicate(is_business_hours, []).
 condition_predicate(is_same_site, [name, name]).
+condition_predicate(is_same_site2, [name, name]).
 %condition_predicate(not_lockdown, []).
 %
 
@@ -68,7 +69,7 @@ is_business_hours :-
     condition_variable_value(hour_now, Hour),
     Hour =< 18, Hour >= 7.
 
-is_same_site2(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).
+is_same_site2(User, Object) :- getUserLocation(User, Site),getObjectLocation(Object, Site).
 is_same_site(Site, Site).
 %is_same_site(location(User, Site), location(Object, Site)).
 %is_same_site(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).
