@@ -1,0 +1,16 @@
+{
+    "objects" :[
+        {
+            "id":"o1",
+            "location":"siteA"
+        },
+        {
+            "id":"o2",
+            "location":"siteB"
+        },
+        {
+            "id":"o3",
+            "location":"siteC"
+        }
+    ]
+}

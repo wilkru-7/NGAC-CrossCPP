@@ -1,0 +1,19 @@
+{
+    "users": [
+    {
+        "id":"u1",
+        "location":"siteA"
+    },
+    {
+        "id":"u2",
+        "location":"siteB"
+    },
+    {
+        "id":"u3",
+        "location":"siteB"
+    },
+    {
+        "id":"u4",
+        "location":"siteB"
+    }]
+}

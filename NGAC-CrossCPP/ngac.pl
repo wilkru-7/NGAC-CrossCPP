@@ -2,13 +2,15 @@
 
 :- module(ngac, [ngac/0,ngac/1,ngac/4,ngac_server/0,epp_server/0]).
 :- use_module([
-	   databas, param,command,pio,policies,
+	   param,command,pio,policies,
        test,procs,pmcmd,
        dpl,server,pqapi,paapi,pap,pdp,jsonresp,
        % pip,
        sessions,domains,
        audit,
-       erl,epp, epp_cpa,epp_era,dpl_conditions, eppapi
+       erl,epp, epp_cpa,epp_era,dpl_conditions, eppapi,
+	   /* WE ADDED locationJson */
+	   locationJson
    ]).
 
 :- style_check(-singleton).

@@ -3,7 +3,9 @@
 %   condition_variable(VariableName : VariableType)
 %   Type is one of: list, boolean, number, name
 
-:- use_module(databas).
+/* WE ADDED THIS!!! */
+:- use_module(locationJson).
+/* END OF WE ADDED THIS!!! */
 
 condition_variable(weekday:boolean).
 condition_variable(business:boolean).
