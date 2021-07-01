@@ -30,7 +30,7 @@ getLocation(Id, [map(Id, Location)|_], Location):- !.
 getLocation(Id, [_|T], Location) :- getLocation(Id, T, Location).
 
 % Return location for given user.
-getUserLocation(User, Location) :-  getJson('users.json', users, Users), getLocation(User, Users, Location).
+getUserLocation(User, Location) :-  getJson('Json/users.json', users, Users), getLocation(User, Users, Location).
 
-getObjectLocation(Object, Location) :- getJson('objects.json', objects, Objects), getLocation(Object, Objects, Location).
+getObjectLocation(Object, Location) :- getJson('Json/objects.json', objects, Objects), getLocation(Object, Objects, Location).
 
