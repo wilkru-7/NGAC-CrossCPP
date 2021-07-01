@@ -1,6 +1,10 @@
 # Authors: André Christofferson & Wilma Krutrök
 
 # Test is_same_location where location is retrived from JSON files in folder JSON/
+echo 'Load policies'
+curl -s -G "http://127.0.0.1:8001/paapi/loadpol" --data-urlencode "policyfile=POLICIES/users.pl" --data-urlencode "token=admin_token"
+curl -s -G "http://127.0.0.1:8001/paapi/loadpol" --data-urlencode "policyfile=POLICIES/general_location.pl" --data-urlencode "token=admin_token"
+
 echo '\nCombining policies - Example 2 (Users + General condition with same location)'
 curl -s "http://127.0.0.1:8001/paapi/combinepol?policy1=users&policy2=general_cond_location&combined=combined_policies&token=admin_token"
 
