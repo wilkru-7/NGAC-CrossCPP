@@ -10,7 +10,7 @@
        audit,
        erl,epp, epp_cpa,epp_era,dpl_conditions, eppapi,
 	   /* WE ADDED locationJson */
-	   locationJson
+	   location_json
    ]).
 
 :- style_check(-singleton).

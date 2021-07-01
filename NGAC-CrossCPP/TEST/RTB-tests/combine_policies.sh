@@ -1,3 +1,6 @@
+# Authors: André Christofferson & Wilma Krutrök
+
+# Combining user policy with general policies
 echo 'Combining policies - Example 1 (Users + general)'
 curl -s "http://127.0.0.1:8001/paapi/combinepol?policy1=users&policy2=general&combined=combined_policies&token=admin_token"
 

@@ -522,47 +522,49 @@ policy('Policy (bb)','File Management 1', [
 	associate('Alice',[r,w],'o2')
 	]).
 
-policy('example1', 'Book Lifts', [
-	%conditions([current_day_is_one_of(list)]),
-	user('u1'),
-	user('u2'),
+/* WE ADDED THESE EXAMPLES */
 
-	user_attribute('Alice'),
-	user_attribute('Bob'),
-	user_attribute('Users'),
+% policy('example1', 'Book Lifts', [
+% 	%conditions([current_day_is_one_of(list)]),
+% 	user('u1'),
+% 	user('u2'),
 
-	object('o1'),
-	object('o2'),
-	object('o3'),
+% 	user_attribute('Alice'),
+% 	user_attribute('Bob'),
+% 	user_attribute('Users'),
 
-	object_attribute('Lifts'),
+% 	object('o1'),
+% 	object('o2'),
+% 	object('o3'),
 
-	policy_class('Book Lifts'),
-	connector('PM'),
+% 	object_attribute('Lifts'),
 
-	assign('u1','Alice'),
-	assign('u2','Bob'),
-	assign('Alice','Users'),
-	assign('Bob','Users'),
+% 	policy_class('Book Lifts'),
+% 	connector('PM'),
 
-	assign('o1','Lifts'),
-	assign('o2','Lifts'),
-	assign('o3','Lifts'),
+% 	assign('u1','Alice'),
+% 	assign('u2','Bob'),
+% 	assign('Alice','Users'),
+% 	assign('Bob','Users'),
 
-	assign('Users','Book Lifts'),
-	assign('Lifts','Book Lifts'),
+% 	assign('o1','Lifts'),
+% 	assign('o2','Lifts'),
+% 	assign('o3','Lifts'),
 
-    assign('Book Lifts','PM'),
+% 	assign('Users','Book Lifts'),
+% 	assign('Lifts','Book Lifts'),
 
-	operation(book,'Lift'),
+%     assign('Book Lifts','PM'),
 
-	cond( current_day_is_one_of(['Monday','Tuesday','Wednesday','Thursday','Friday']),
-		[associate('Alice',[book],'o2'),
-		associate('Alice',[book],'o3')]  ),
+% 	operation(book,'Lift'),
 
-	associate('Bob',[book],'Lifts')
+% 	cond( current_day_is_one_of(['Monday','Tuesday','Wednesday','Thursday','Friday']),
+% 		[associate('Alice',[book],'o2'),
+% 		associate('Alice',[book],'o3')]  ),
+
+% 	associate('Bob',[book],'Lifts')
 	
-]).
+% ]).
 
 policy('example2', 'Book Lifts Business Hours', [
 	%conditions([is_business_hours]),
@@ -656,266 +658,222 @@ policy('example3', 'Book Lifts Same Site', [
 		associate('Users',[book],'Lifts'))*/
 ]).
 
-policy('example3b', 'Book Lifts Same Site - Cond var', [
-	conditions([is_same_site(name, name)]),
-	user('u1'),
-	user('u2'),
+% policy('example3b', 'Book Lifts Same Site - Cond var', [
+% 	conditions([is_same_site(name, name)]),
+% 	user('u1'),
+% 	user('u2'),
 
-	user_attribute('Alice'),
-	user_attribute('Bob'),
-	user_attribute('Users'),
-	user_attribute('SiteA'),
-	user_attribute('SiteB'),
+% 	user_attribute('Alice'),
+% 	user_attribute('Bob'),
+% 	user_attribute('Users'),
+% 	user_attribute('SiteA'),
+% 	user_attribute('SiteB'),
 
-	object('o1'),
-	object('o2'),
-	object('o3'),
+% 	object('o1'),
+% 	object('o2'),
+% 	object('o3'),
 
-	object_attribute('Lifts'),
-	object_attribute('SiteA'),
-	object_attribute('SiteB'),
+% 	object_attribute('Lifts'),
+% 	object_attribute('SiteA'),
+% 	object_attribute('SiteB'),
 
-	policy_class('Book Lifts Business Hours'),
-	connector('PM'),
+% 	policy_class('Book Lifts Business Hours'),
+% 	connector('PM'),
 
-	assign('u1','Alice'),
-	assign('u2','Bob'),
-	assign('Alice','Users'),
-	assign('Bob','Users'),
+% 	assign('u1','Alice'),
+% 	assign('u2','Bob'),
+% 	assign('Alice','Users'),
+% 	assign('Bob','Users'),
 
-	assign('o1','Lifts'),
-	assign('o2','Lifts'),
-	assign('o3','Lifts'),
+% 	assign('o1','Lifts'),
+% 	assign('o2','Lifts'),
+% 	assign('o3','Lifts'),
 
-	assign('Users','Book Lifts Business Hours'),
-	assign('Lifts','Book Lifts Business Hours'),
+% 	assign('Users','Book Lifts Business Hours'),
+% 	assign('Lifts','Book Lifts Business Hours'),
 
-    assign('Book Lifts Business Hours','PM'),
+%     assign('Book Lifts Business Hours','PM'),
 
-	operation(book,'Lift'),
+% 	operation(book,'Lift'),
 
-	%cond(is_same_site(_,_),
-	cond(is_same_site(location_user, location_object),
-		associate('Users',[book],'Lifts'))
+% 	%cond(is_same_site(_,_),
+% 	cond(is_same_site(location_user, location_object),
+% 		associate('Users',[book],'Lifts'))
 
-]).
+% ]).
 
-policy(users, 'Defining Users', [
-	user('u1'),
-	user('u2'),
-	user('u3'),
-	user('u4'),
+% policy(users, 'Defining Users', [
+% 	user('u1'),
+% 	user('u2'),
+% 	user('u3'),
+% 	user('u4'),
 
-	user_attribute('Groups'),
-	user_attribute('GroupA'),
-	user_attribute('GroupB'),
-	user_attribute('GroupC'),
+% 	user_attribute('Groups'),
+% 	user_attribute('GroupA'),
+% 	user_attribute('GroupB'),
+% 	user_attribute('GroupC'),
 	
-	policy_class('Defining'),
-	connector('PM'),
+% 	policy_class('Defining'),
+% 	connector('PM'),
 
-	assign('GroupA', 'Groups'),
-	assign('GroupB', 'Groups'),
-	assign('GroupC', 'Groups'),
+% 	assign('GroupA', 'Groups'),
+% 	assign('GroupB', 'Groups'),
+% 	assign('GroupC', 'Groups'),
 
-	assign('u1', 'GroupA'),
-	assign('u2', 'GroupB'),
-	assign('u3', 'GroupC'),
-	assign('u4', 'GroupC'),
+% 	assign('u1', 'GroupA'),
+% 	assign('u2', 'GroupB'),
+% 	assign('u3', 'GroupC'),
+% 	assign('u4', 'GroupC'),
 
-	assign('Groups', 'Defining'),
-	%assign('Groups', 'PM')
-	assign('Defining', 'PM')
+% 	assign('Groups', 'Defining'),
+% 	%assign('Groups', 'PM')
+% 	assign('Defining', 'PM')
 	
-	]).
+% 	]).
 
-policy(general, 'Defining Objects', [
-	object('o1'),
-	object('o2'),
+% policy(general, 'Defining Objects', [
+% 	object('o1'),
+% 	object('o2'),
 
-	object_attribute('Sites'),
-	object_attribute('SiteA'),
-	object_attribute('SiteB'),
+% 	object_attribute('Sites'),
+% 	object_attribute('SiteA'),
+% 	object_attribute('SiteB'),
 
-	policy_class('Defining'),
-	connector('PM'),
+% 	policy_class('Defining'),
+% 	connector('PM'),
 
-	assign('o1', 'SiteA'),
-	assign('o2', 'SiteB'),
+% 	assign('o1', 'SiteA'),
+% 	assign('o2', 'SiteB'),
 
-	assign('SiteA', 'Sites'),
-	assign('SiteB', 'Sites'),
+% 	assign('SiteA', 'Sites'),
+% 	assign('SiteB', 'Sites'),
 
-	assign('Sites', 'Defining'),
-	%assign('Sites', 'PM'),
-	assign('Defining', 'PM'),
+% 	assign('Sites', 'Defining'),
+% 	%assign('Sites', 'PM'),
+% 	assign('Defining', 'PM'),
 
-	associate('GroupA', [book], 'SiteA'),
-	associate('GroupB', [book], 'SiteB'),
-	associate('GroupC', [book], 'Sites')
-	]).
+% 	associate('GroupA', [book], 'SiteA'),
+% 	associate('GroupB', [book], 'SiteB'),
+% 	associate('GroupC', [book], 'Sites')
+% 	]).
 
-policy(test9,'test9', [
-	user('u1'),
-	user('u2'),
-	user('u3'),
-	user('u4'),
+% policy(objects, 'Defining Objects', [
+% 	object('o1'),
+% 	object('o2'),
 
-	user_attribute('GroupA'),
-	user_attribute('GroupB'),
-	user_attribute('GroupC'),
-	user_attribute('Groups'),
+% 	object_attribute('Sites'),
+% 	object_attribute('SiteA'),
+% 	object_attribute('SiteB'),
 
-	object('o1'),
-	object('o2'),
+% 	policy_class('Defining'),
+% 	connector('PM'),
 
-	object_attribute('SiteA'),
-	object_attribute('SiteB'),
-	object_attribute('Sites'),
+% 	assign('o1', 'SiteA'),
+% 	assign('o2', 'SiteB'),
 
-	policy_class('test9'),
-	connector('PM'),
-	assign('GroupA', 'Groups'),
-	assign('GroupB', 'Groups'),
-	assign('GroupC', 'Groups'),
+% 	assign('SiteA', 'Sites'),
+% 	assign('SiteB', 'Sites'),
 
-	assign('SiteA','Sites'),
-	assign('SiteB','Sites'),
-	assign('o1','SiteA'),
-	assign('o2','SiteB'),
+% 	assign('Sites', 'Defining'),
+% 	%assign('Sites', 'PM'),
+% 	assign('Defining', 'PM')
+% 	]).
 
-	assign('u1','GroupA'),
-	assign('u2','GroupB'),
-	assign('u3','GroupC'),
-	assign('u4','GroupC'),
+% policy(associates, 'Defining Operations', [
+% 	policy_class('Defining'),
+% 	connector('PM'),
 
-	assign('Groups', 'test9'),
-	assign('Sites', 'test9'),
-	assign('test9', 'PM'),
+% 	assign('Defining', 'PM'),
 
-	associate('GroupA',[book],'SiteA'),
-	associate('GroupB',[book],'SiteB'),
-	associate('GroupC',[book],'Sites')
-  ]).
+% 	associate('GroupA',[book],'SiteA'),
+% 	associate('GroupB',[book],'SiteB'),
+% 	associate('GroupC',[book],'Sites')
+% 	]).
 
-policy(objects, 'Defining Objects', [
-	object('o1'),
-	object('o2'),
+% policy(cond_associates, 'Defining conditional operations', [
+% 	conditions([is_same_site(name, name)]),
+% 	% policy_class('Defining'),
+% 	% connector('PM'),
 
-	object_attribute('Sites'),
-	object_attribute('SiteA'),
-	object_attribute('SiteB'),
+% 	% assign('Defining', 'PM'),
 
-	policy_class('Defining'),
-	connector('PM'),
+% 	cond(is_same_site(_, _), [
+% 		associate('GroupA',[book],'SiteA'),
+% 		associate('GroupB',[book],'SiteB'),
+% 		associate('GroupC',[book],'Sites')])
+% 	]).
 
-	assign('o1', 'SiteA'),
-	assign('o2', 'SiteB'),
+% policy(general_cond, 'Defining Objects Cond', [
+% 	object('o1'),
+% 	object('o2'),
 
-	assign('SiteA', 'Sites'),
-	assign('SiteB', 'Sites'),
+% 	object_attribute('Sites'),
+% 	object_attribute('SiteA'),
+% 	object_attribute('SiteB'),
 
-	assign('Sites', 'Defining'),
-	%assign('Sites', 'PM'),
-	assign('Defining', 'PM')
-	]).
+% 	policy_class('Defining'),
+% 	connector('PM'),
 
-policy(associates, 'Defining Operations', [
-	policy_class('Defining'),
-	connector('PM'),
+% 	assign('o1', 'SiteA'),
+% 	assign('o2', 'SiteB'),
 
-	assign('Defining', 'PM'),
+% 	assign('SiteA', 'Sites'),
+% 	assign('SiteB', 'Sites'),
 
-	associate('GroupA',[book],'SiteA'),
-	associate('GroupB',[book],'SiteB'),
-	associate('GroupC',[book],'Sites')
-	]).
-
-policy(cond_associates, 'Defining conditional operations', [
-	conditions([is_same_site(name, name)]),
-	% policy_class('Defining'),
-	% connector('PM'),
-
-	% assign('Defining', 'PM'),
-
-	cond(is_same_site(_, _), [
-		associate('GroupA',[book],'SiteA'),
-		associate('GroupB',[book],'SiteB'),
-		associate('GroupC',[book],'Sites')])
-	]).
-
-policy(general_cond, 'Defining Objects Cond', [
-	object('o1'),
-	object('o2'),
-
-	object_attribute('Sites'),
-	object_attribute('SiteA'),
-	object_attribute('SiteB'),
-
-	policy_class('Defining'),
-	connector('PM'),
-
-	assign('o1', 'SiteA'),
-	assign('o2', 'SiteB'),
-
-	assign('SiteA', 'Sites'),
-	assign('SiteB', 'Sites'),
-
-	assign('Sites', 'Defining'),
-	%assign('Sites', 'PM'),
-	assign('Defining', 'PM'),
+% 	assign('Sites', 'Defining'),
+% 	%assign('Sites', 'PM'),
+% 	assign('Defining', 'PM'),
 
 	
-	cond(is_same_site(_, _), [
-		associate('GroupA',[book],'SiteA'),
-		associate('GroupB',[book],'SiteB'),
-		associate('GroupC',[book],'Sites')])
-	]).
+% 	cond(is_same_site(_, _), [
+% 		associate('GroupA',[book],'SiteA'),
+% 		associate('GroupB',[book],'SiteB'),
+% 		associate('GroupC',[book],'Sites')])
+% 	]).
 
-policy(general_cond2, 'Defining Objects Cond', [
-	object('o1'),
-	object('o2'),
+% policy(general_cond_location, 'Defining Objects Cond', [
+% 	object('o1'),
+% 	object('o2'),
 
-	object_attribute('Sites'),
-	object_attribute('SiteA'),
-	object_attribute('SiteB'),
+% 	object_attribute('Sites'),
+% 	object_attribute('SiteA'),
+% 	object_attribute('SiteB'),
 
-	policy_class('Defining'),
-	connector('PM'),
+% 	policy_class('Defining'),
+% 	connector('PM'),
 
-	assign('o1', 'SiteA'),
-	assign('o2', 'SiteB'),
+% 	assign('o1', 'SiteA'),
+% 	assign('o2', 'SiteB'),
 
-	assign('SiteA', 'Sites'),
-	assign('SiteB', 'Sites'),
+% 	assign('SiteA', 'Sites'),
+% 	assign('SiteB', 'Sites'),
 
-	assign('Sites', 'Defining'),
-	%assign('Sites', 'PM'),
-	assign('Defining', 'PM'),
+% 	assign('Sites', 'Defining'),
+% 	%assign('Sites', 'PM'),
+% 	assign('Defining', 'PM'),
 
+% 	cond(is_same_location(_, _), [
+% 		associate('GroupA',[book],'SiteA'),
+% 		associate('GroupB',[book],'SiteB'),
+% 		associate('GroupC',[book],'Sites')])
+% 	]).
+
+% policy(location, 'Policy for location', [
+% 	object('o1'),
+
+% 	object_attribute('Sites'),
+% 	object_attribute('SiteA'),
+
+% 	policy_class('Defining'),
+% 	connector('PM'),
+
+% 	assign('o1', 'SiteA'),
+
+% 	assign('SiteA', 'Sites'),
+
+% 	assign('Sites', 'Defining'),
+% 	assign('Defining', 'PM'),
 	
-	cond(is_same_site2(_, _), [
-		associate('GroupA',[book],'SiteA'),
-		associate('GroupB',[book],'SiteB'),
-		associate('GroupC',[book],'Sites')])
-	]).
-
-policy(location, 'Policy for location', [
-	object('o1'),
-
-	object_attribute('Sites'),
-	object_attribute('SiteA'),
-
-	policy_class('Defining'),
-	connector('PM'),
-
-	assign('o1', 'SiteA'),
-
-	assign('SiteA', 'Sites'),
-
-	assign('Sites', 'Defining'),
-	assign('Defining', 'PM'),
-	
-	cond(is_same_site(_, siteA), [
-		associate('GroupA',[book],'SiteA')])
-	]).
+% 	cond(is_same_site(_, siteA), [
+% 		associate('GroupA',[book],'SiteA')])
+% 	]).

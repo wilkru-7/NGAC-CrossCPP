@@ -204,6 +204,9 @@ proc(autocomb, [
 	 access('Combined Policy', ('Ana',w,'VIN-3001 Trip Signals'))
      ]).
 
+/* WE ADDED THESE EXAMPLES */
+
+/* Example used for testing commands */
 proc(example2, [
 	 import(policy('POLICIES/example2.pl')),
 	 access('example2', ('u1',book,'o2')), % Returns grant or deny
@@ -213,6 +216,7 @@ proc(example2, [
 	 aua('o1') % Return users allowed to do action ([book]) on object (Return both Bob and u2 (same user))
      ]).
 
+/* Example used for testing commands */
 proc(example3, [
 	 import(policy('POLICIES/example3.pl')), % Imports policy from file and sets it as current policy
 	 access('example3', ('u1',book,'o2'), is_same_site('SiteA', 'SiteA')), % Returns grant or deny
@@ -257,44 +261,18 @@ access('combined_examples', ('u2', book, 'o1'), is_same_site('u2', 'o1')),
 access('combined_examples', ('u2', book, 'o2'), is_same_site('u2', 'o2'))
 ]).
 
+/* Example showing the use of is_same_location condition */
 proc(combine, [
-combine('users', 'general_cond2', 'combine'),
+import(policy('POLICIES/users.pl')),
+import(policy('POLICIES/general_location.pl')),
+combine('users', 'general_cond_location', 'combine'),
 setpol('combine'),
 access('combine', ('u1', book, 'o1')),
 access('combine', ('u1', book, 'o2')),
 access('combine', ('u2', book, 'o1')),
 access('combine', ('u2', book, 'o2')),
-access('combine', ('u1', book, 'o1'), is_same_site2('"u1"', '"o1"')),
-access('combine', ('u2', book, 'o2'), is_same_site2('"u2"', '"o2"')),
-access('combine', ('u3', book, 'o2'), is_same_site2('"u3"', '"o2"')),
-access('combine', ('u4', book, 'o2'), is_same_site2('"u4"', '"o2"'))
+access('combine', ('u1', book, 'o1'), is_same_location('"u1"', '"o1"')),
+access('combine', ('u2', book, 'o2'), is_same_location('"u2"', '"o2"')),
+access('combine', ('u3', book, 'o2'), is_same_location('"u3"', '"o2"')),
+access('combine', ('u4', book, 'o2'), is_same_location('"u4"', '"o2"'))
 ]).
-
-% proc(combine, User, Object, [
-% combine('users', 'general', 'combine'),
-% setpol('combine'),
-% getUserLocation(User, UserLocation),
-% getObjectLocation(Object, ObjectLocation),
-% access('combine', (User, book, Object), is_same_site(UserLocation, ObjectLocation))
-% ]).
-
-/* Methods not tested yet */
-% activate_erp( <er package name> ).
-% admin.
-% advanced.
-% combine( <policy name 1>, <policy name 2>, <combined policy name> ).
-% current_erp.
-% deactivate_erp( <er package name> ).
-% epp(<port>).
-% epp(<port>, <token>).
-% load_cond( <cond file> ).
-% load_cond( <cond file>, <condition name> ).
-% load_erf( <erp file> ).
-% unload_erp( <er package name> )
-
-% script( <file name> [, step] ).
-% script( <file name> [, verbose] ).
-% server( <port >, <admin token> ).
-% server( <port >, <admin token>, <epp token> ).
-% time( <ngac command> ).
-% time( <ngac command>, <reps> ).

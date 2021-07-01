@@ -4,19 +4,21 @@
 %   Type is one of: list, boolean, number, name
 
 /* WE ADDED THIS!!! */
-:- use_module(locationJson).
+:- use_module(location_json).
 /* END OF WE ADDED THIS!!! */
 
 condition_variable(weekday:boolean).
 condition_variable(business:boolean).
-condition_variable(location_user:name).
-condition_variable(location_object:name).
 %condition_variable(is_business_hours:boolean).
 %condition_variable(condVar1:number).
 %condition_variable(condVar2:name).
 %condition_variable(condVar3:boolean).
 %condition_variable(lockdown:boolean).
 %condition_variable(today:name).
+
+/* WE ADDED THESE */
+condition_variable(location_user:name).
+condition_variable(location_object:name).
 
 % condition variables for marketplace
 condition_variable(devid:name).
@@ -41,10 +43,11 @@ condition_predicate(is_weekday, []).
 condition_predicate(is_business, []).
 condition_predicate(current_day_is_one_of, [list]).
 condition_predicate(is_business_hours, []).
-condition_predicate(is_same_site, [name, name]).
-condition_predicate(is_same_site2, [name, name]).
 %condition_predicate(not_lockdown, []).
-%
+
+/* WE ADDED THESE */
+condition_predicate(is_same_site, [name, name]).
+condition_predicate(is_same_location, [name, name]).
 
 % condition predicate declarations for the marketplace
 % NOTE dr name ends in 1 for the example in policies.pl
@@ -67,11 +70,15 @@ current_day_is_one_of(SetOfDays) :-
     condition_variable_value(day_now,Today),
     memberchk(Today,SetOfDays).
 
+/* WE ADDED THIS */
+
+/* Checks if localhost time is between 07-18 */
 is_business_hours :-
     condition_variable_value(hour_now, Hour),
     Hour =< 18, Hour >= 7.
 
-is_same_site2(User, Object) :- getUserLocation(User, Site),getObjectLocation(Object, Site).
+/* Checks if user and objects is at same site, retrives location from files from Json/ folder */
+is_same_location(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).
+
+/* Would be used if PEP retrives location */
 is_same_site(Site, Site).
-%is_same_site(location(User, Site), location(Object, Site)).
-%is_same_site(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).

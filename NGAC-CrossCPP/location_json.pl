@@ -1,6 +1,6 @@
 /* Authors: André Christofferson, Wilma Krutrök */
 
-:- module(locationJson, [getUserLocation/2, getObjectLocation/2]).
+:- module(location_json, [getUserLocation/2, getObjectLocation/2]).
 
 :- use_module(library(http/json)).
 :- use_module(library(http/json_convert)).
@@ -30,7 +30,7 @@ getLocation(Id, [map(Id, Location)|_], Location):- !.
 getLocation(Id, [_|T], Location) :- getLocation(Id, T, Location).
 
 % Return location for given user.
-getUserLocation(User, Location) :-  getJson('Json/users.json', users, Users), getLocation(User, Users, Location).
+getUserLocation(User, Location) :-  getJson('JSON/users.json', users, Users), getLocation(User, Users, Location).
 
-getObjectLocation(Object, Location) :- getJson('Json/objects.json', objects, Objects), getLocation(Object, Objects, Location).
+getObjectLocation(Object, Location) :- getJson('JSON/objects.json', objects, Objects), getLocation(Object, Objects, Location).
 
