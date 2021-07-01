@@ -251,11 +251,33 @@ access('combined_examples', ('u1', book, 'o1')),
 access('combined_examples', ('u1', book, 'o2')),
 access('combined_examples', ('u2', book, 'o1')),
 access('combined_examples', ('u2', book, 'o2')),
-access('combined_examples', ('u1', book, 'o2'), is_same_site('SiteA', 'SiteA')),
-access('combined_examples', ('u1', book, 'o2'), is_same_site('SiteA', 'SiteB')),
-access('combined_examples', ('u2', book, 'o2'), is_same_site('SiteA', 'SiteA')),
-access('combined_examples', ('u2', book, 'o2'), is_same_site('SiteA', 'SiteB'))
+access('combined_examples', ('u1', book, 'o1'), is_same_site('u1', 'o1')),
+access('combined_examples', ('u1', book, 'o2'), is_same_site('u1', 'o2')),
+access('combined_examples', ('u2', book, 'o1'), is_same_site('u2', 'o1')),
+access('combined_examples', ('u2', book, 'o2'), is_same_site('u2', 'o2'))
 ]).
+
+proc(combine, [
+combine('users', 'general_cond2', 'combine'),
+setpol('combine'),
+access('combine', ('u1', book, 'o1')),
+access('combine', ('u1', book, 'o2')),
+access('combine', ('u2', book, 'o1')),
+access('combine', ('u2', book, 'o2')),
+access('combine', ('u1', book, 'o1'), is_same_site2("u1", "o1")),
+access('combine', ('u1', book, 'o2'), is_same_site2("u1", "o2")),
+access('combine', ('u2', book, 'o1'), is_same_site2("u2", "o1")),
+access('combine', ('u2', book, 'o2'), is_same_site2("u2", "o2"))
+]).
+
+% proc(combine, User, Object, [
+% combine('users', 'general', 'combine'),
+% setpol('combine'),
+% getUserLocation(User, UserLocation),
+% getObjectLocation(Object, ObjectLocation),
+% access('combine', (User, book, Object), is_same_site(UserLocation, ObjectLocation))
+% ]).
+
 /* Methods not tested yet */
 % activate_erp( <er package name> ).
 % admin.

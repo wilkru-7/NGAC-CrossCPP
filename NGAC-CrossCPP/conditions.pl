@@ -3,6 +3,8 @@
 %   condition_variable(VariableName : VariableType)
 %   Type is one of: list, boolean, number, name
 
+:- use_module(databas).
+
 condition_variable(weekday:boolean).
 condition_variable(business:boolean).
 condition_variable(location_user:name).
@@ -66,8 +68,7 @@ is_business_hours :-
     condition_variable_value(hour_now, Hour),
     Hour =< 18, Hour >= 7.
 
-% is_same_site(Site_User, Site_Object).
+is_same_site2(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).
 is_same_site(Site, Site).
 %is_same_site(location(User, Site), location(Object, Site)).
 %is_same_site(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).
-

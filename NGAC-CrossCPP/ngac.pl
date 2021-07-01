@@ -8,7 +8,7 @@
        % pip,
        sessions,domains,
        audit,
-       erl,epp, epp_cpa,epp_era,dpl_conditions, eppapi
+       erl,epp, epp_cpa,epp_era,dpl_conditions, eppapi, databas
    ]).
 
 :- style_check(-singleton).
