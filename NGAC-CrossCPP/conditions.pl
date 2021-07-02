@@ -82,3 +82,16 @@ is_same_location(User, Object) :- getUserLocation(User, Site), getObjectLocation
 
 /* Would be used if PEP retrives location */
 is_same_site(Site, Site).
+
+/* NOT USED (Could be used if level is stored in JSON together with location) */
+/* Translation from attribute to Int to be used in at_leas_level(_,_) */
+level_translation('level1', 1).
+level_translation('level2', 2).
+level_translation('level3', 3).
+level_translation('level4', 4).
+
+/* Users with at least level X can book the object */
+at_least_level(User, Object) :- level_translation(User, UserLevel), level_translation(Object, ObjectLevel), UserLevel >= ObjectLevel.
+
+/* Combination between is_same_location and management level */
+level_and_location().
