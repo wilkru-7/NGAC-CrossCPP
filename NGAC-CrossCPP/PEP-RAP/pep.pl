@@ -9,6 +9,8 @@
 :- use_module(library(http/http_parameters)).
 
 :- use_module(library(uuid)).
+:- use_module('../location_json.pl').
+%:- use_module('../JSON/users.json').
 
 ngac_pep_port(8005).
 ngac_pdp_port(8001).
@@ -74,11 +76,21 @@ peapi_dispatch(API,Request) :-
 pep(Op,Object,Data) :-
 	PDP='http://127.0.0.1:8001/pqapi/',
 	% dummy arguments for demonstration
-	U=u1, % from the session environment
+	U=u2,
+	%U1=u2, % from the session environment
 	AR=Op, O=Object, % from the request
-	format(atom(Query),'access?user=~a&ar=~a&object=~a',[U,AR,O]),
+	%format(atom(O1), ~a, [Object]),
+	getUserLocationPEP(U, UL),
+	getObjectLocationPEP(O, OL),
+	%term_to_atom(OL, OLNew),
+	%term_to_atom(UL, ULNew),
+	%format(atom(Query),'access?user=~a&ar=~a&object=~a',[U,AR,O]),
+	format(atom(Query),'access?user=~a&ar=~a&object=~a&cond=is_same_site(~a,~a)',[U,AR,O,UL,OL]),
 	atom_concat(PDP,Query,PDPq),
-
+	format(Query),
+	format(UL),
+	format(OL),
+	
 	% e.g. PDPq='http://127.0.0.1:8001/pqapi/access?user=u1&ar=w&object=o2'
 	http_get(PDPq,PDPresult,[]), % query the PDP
 
@@ -114,9 +126,12 @@ peapi_openObject(ObjName,Operations) :-
 	    format('PDP query result=~w~n',PDPresult),
 	    %read_term_from_atom(PDPresult,Term,[]),
 	    %format('PDP result term=~q~n',Term)
+		
 	    read_term_from_atom(PDPresult,objectinfo(O,Oclass,Inh,Host,Path,BaseType,BaseName),[]),
+		writeln('1'),
 	    format('object=~a,oclass=~a,inh=~a,host=~a,path=~a,basetype=~a,basename=~a~n',
 		   [O,Oclass,Inh,Host,Path,BaseType,BaseName]),
+		writeln('2'),
 	    rap:file_open(Path,Operations,Stream),
 	    uuid(Handle), assert(openObject(ObjName,Handle,Operations,Stream,1)),
 	    writeln(Handle)

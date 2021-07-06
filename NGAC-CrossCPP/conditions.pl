@@ -48,6 +48,7 @@ condition_predicate(is_business_hours, []).
 /* WE ADDED THESE */
 condition_predicate(is_same_site, [name, name]).
 condition_predicate(is_same_location, [name, name]).
+condition_predicate(location_and_business, [name, name]).
 
 % condition predicate declarations for the marketplace
 % NOTE dr name ends in 1 for the example in policies.pl
@@ -82,6 +83,8 @@ is_same_location(User, Object) :- getUserLocation(User, Site), getObjectLocation
 
 /* Would be used if PEP retrives location */
 is_same_site(Site, Site).
+
+location_and_business(User, Object) :- is_business_hours, is_same_location(User, Object).
 
 /* NOT USED (Could be used if level is stored in JSON together with location) */
 /* Translation from attribute to Int to be used in at_leas_level(_,_) */

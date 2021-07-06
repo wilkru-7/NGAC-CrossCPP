@@ -1,6 +1,6 @@
 /* Authors: André Christofferson, Wilma Krutrök */
 
-:- module(location_json, [getUserLocation/2, getObjectLocation/2]).
+:- module(location_json, [getUserLocation/2, getObjectLocation/2, getUserLocationPEP/2, getObjectLocationPEP/2]).
 
 :- use_module(library(http/json)).
 :- use_module(library(http/json_convert)).
@@ -14,7 +14,8 @@ readJson(Json_to_string, FPath) :- open(FPath, read, Dicty), read_string(Dicty ,
         [ map('"id"', '"location"'), .. ] */
 toAtomList([],[]).
 toAtomList([map(Id, Location)|Tail], [map(IdNew, LocationNew)|TailNew]) :- 
-    term_to_atom(Id, IdNew), term_to_atom(Location,LocationNew), toAtomList(Tail,TailNew).
+    %term_to_atom(Id, IdNew), term_to_atom(Location,LocationNew), toAtomList(Tail,TailNew).
+    atom_string(IdNew, Id), atom_string(LocationNew, Location), toAtomList(Tail, TailNew).
 
 /*  Takes Json and Converts it to a list containing id and location
     Form:
@@ -34,3 +35,7 @@ getUserLocation(User, Location) :-  getJson('JSON/users.json', users, Users), ge
 
 getObjectLocation(Object, Location) :- getJson('JSON/objects.json', objects, Objects), getLocation(Object, Objects, Location).
 
+% Return location for given user.
+getUserLocationPEP(User, Location) :-  getJson('../JSON/users.json', users, Users), getLocation(User, Users, Location).
+
+getObjectLocationPEP(Object, Location) :- getJson('../JSON/objects.json', objects, Objects), getLocation(Object, Objects, Location).
