@@ -34,6 +34,7 @@ pep_server(Port) :- http_server(http_dispatch, [port(Port)]).
 :- http_handler(root(peapi/closeObject), peapi_dispatch(closeObject), [prefix]).
 :- http_handler(root(peapi/getObject), peapi_dispatch(getObject), [prefix]).
 :- http_handler(root(peapi/putObject), peapi_dispatch(putObject), [prefix]).
+:- http_handler(root(peapi/book), peapi_dispatch(book), [prefix]).
 :- http_handler(root('peapi/'), unimp_peapi, [prefix]).
 
 peapi(getLastError,[],[]).
@@ -43,6 +44,7 @@ peapi(writeObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjNa
 peapi(closeObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 peapi(getObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 peapi(putObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
+peapi(book,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 
 peapi_dispatch(API,Request) :-
 	peapi(API,Parameters,Positional),
@@ -72,8 +74,12 @@ peapi_dispatch(API,Request) :-
 %       return rap_result
 %     else /* access_result == 'deny' */
 %       return 'Op on Object denied'
+peapi_book(ObjName, Operations):-
+	pep(Operations, ObjName, "").
+	%format(ObjName).
 
-pep(Op,Object,Data) :-
+
+pep(User, Op,Object,Data) :-
 	PDP='http://127.0.0.1:8001/pqapi/',
 	% dummy arguments for demonstration
 	U=u2,
@@ -87,9 +93,6 @@ pep(Op,Object,Data) :-
 	%format(atom(Query),'access?user=~a&ar=~a&object=~a',[U,AR,O]),
 	format(atom(Query),'access?user=~a&ar=~a&object=~a&cond=is_same_site(~a,~a)',[U,AR,O,UL,OL]),
 	atom_concat(PDP,Query,PDPq),
-	format(Query),
-	format(UL),
-	format(OL),
 	
 	% e.g. PDPq='http://127.0.0.1:8001/pqapi/access?user=u1&ar=w&object=o2'
 	http_get(PDPq,PDPresult,[]), % query the PDP
