@@ -34,7 +34,10 @@ pep_server(Port) :- http_server(http_dispatch, [port(Port)]).
 :- http_handler(root(peapi/closeObject), peapi_dispatch(closeObject), [prefix]).
 :- http_handler(root(peapi/getObject), peapi_dispatch(getObject), [prefix]).
 :- http_handler(root(peapi/putObject), peapi_dispatch(putObject), [prefix]).
+/* WE ADDED THESE */
 :- http_handler(root(peapi/book), peapi_dispatch(book), [prefix]).
+:- http_handler(root(peapi/access), peapi_dispatch(access), [prefix]).
+/* ----  */
 :- http_handler(root('peapi/'), unimp_peapi, [prefix]).
 
 peapi(getLastError,[],[]).
@@ -44,7 +47,9 @@ peapi(writeObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjNa
 peapi(closeObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 peapi(getObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 peapi(putObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
+/* WE ADDED THESE */
 peapi(book,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
+peapi(access,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 
 peapi_dispatch(API,Request) :-
 	peapi(API,Parameters,Positional),
@@ -74,12 +79,42 @@ peapi_dispatch(API,Request) :-
 %       return rap_result
 %     else /* access_result == 'deny' */
 %       return 'Op on Object denied'
+
+/* WE ADDED THESE */
 peapi_book(ObjName, Operations):-
 	pep(Operations, ObjName, "").
-	%format(ObjName).
 
+% and(true,true).
 
-pep(User, Op,Object,Data) :-
+peapi_access(ObjName, Operations):-
+	User = u1,
+	getUserLocationPEP(User, UL),
+	getObjectLocationPEP(ObjName, OL),
+	format(atom(Cond), 'is_same_site(~a,~a)', [UL, OL]),
+	pep_test(User, Operations, ObjName, Cond, Res).
+	% http_get('http://127.0.0.1:8001/paapi/loadpol?policyfile=../POLICIES/business_hours.pl&token=admin_token', _, []),
+	% http_get('http://127.0.0.1:8001/paapi/setpol?policy=business_hours&token=admin_token', _, []),
+	% pep_test(User, Operations, ObjName, 'is_business_hours', Res2),
+	% (and(Res, Res2)) -> writeln('Access granted') ; writeln('Access denied').
+
+/* Used to easier test the PEP from sh script */
+pep_test(User, Op, Object, Cond, Result) :-
+	PDP='http://127.0.0.1:8001/pqapi/',
+	format(atom(Query),'access?user=~a&ar=~a&object=~a&cond=~a',[User,Op,Object,Cond]),
+	atom_concat(PDP,Query,PDPq),
+	% format(PDPq),
+	http_get(PDPq,PDPresult,[]), % query the PDP
+
+	(   sub_atom(PDPresult, 0, _, _, grant)
+	->  writeln('Access granted'),
+		Result = true
+	    % call Resource Access Point and return data
+	    %(	Op == r -> Data = 'placeholder data'; true)
+	;   writeln('Access denied'),
+		Result = false
+	).
+
+pep(Op,Object,Data) :-
 	PDP='http://127.0.0.1:8001/pqapi/',
 	% dummy arguments for demonstration
 	U=u2,
@@ -103,6 +138,26 @@ pep(User, Op,Object,Data) :-
 	    (	Op == r -> Data = 'placeholder data'; true)
 	;   writeln('Access denied')
 	).
+/* ------------------------- */
+
+/* Original pep method */
+% pep(Op,Object,Data) :-
+% 	PDP='http://127.0.0.1:8001/pqapi/',
+% 	% dummy arguments for demonstration
+% 	U=u1, % from the session environment
+% 	AR=Op, O=Object, % from the request
+% 	format(atom(Query),'access?user=~a&ar=~a&object=~a',[U,AR,O]),
+% 	atom_concat(PDP,Query,PDPq),
+
+% 	% e.g. PDPq='http://127.0.0.1:8001/pqapi/access?user=u1&ar=w&object=o2'
+% 	http_get(PDPq,PDPresult,[]), % query the PDP
+
+% 	(   sub_atom(PDPresult, 0, _, _, grant)
+% 	->  writeln('Access granted'),
+% 	    % call Resource Access Point and return data
+% 	    (	Op == r -> Data = 'placeholder data'; true)
+% 	;   writeln('Access denied')
+% 	).
 
 :- dynamic openObject/5.
 % openObject(Name,Handle,Operations,Stream,SessionId)
