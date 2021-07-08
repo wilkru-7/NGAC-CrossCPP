@@ -37,6 +37,9 @@ pep_server(Port) :- http_server(http_dispatch, [port(Port)]).
 /* WE ADDED THESE */
 :- http_handler(root(peapi/book), peapi_dispatch(book), [prefix]).
 :- http_handler(root(peapi/access), peapi_dispatch(access), [prefix]).
+:- http_handler(root(peapi/test1), peapi_dispatch(test1), [prefix]).
+:- http_handler(root(peapi/test2), peapi_dispatch(test2), [prefix]).
+:- http_handler(root(peapi/test3), peapi_dispatch(test3), [prefix]).
 /* ----  */
 :- http_handler(root('peapi/'), unimp_peapi, [prefix]).
 
@@ -50,6 +53,9 @@ peapi(putObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName
 /* WE ADDED THESE */
 peapi(book,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 peapi(access,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
+peapi(test1,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
+peapi(test2,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
+peapi(test3,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 
 peapi_dispatch(API,Request) :-
 	peapi(API,Parameters,Positional),
@@ -62,7 +68,7 @@ peapi_dispatch(API,Request) :-
 	;   atom_concat('peapi_',API,Peapi_API),
 	     API_call =.. [Peapi_API | Positional],
 	     format('Content-type: text/plain~n~n'),
-	     format('Calling ~w~n',API_call),
+	    %  format('Calling ~w~n',API_call),
 	     call(API_call),
 	    true
 	).
@@ -84,18 +90,41 @@ peapi_dispatch(API,Request) :-
 peapi_book(ObjName, Operations):-
 	pep(Operations, ObjName, "").
 
-% and(true,true).
-
 peapi_access(ObjName, Operations):-
 	User = u1,
 	getUserLocationPEP(User, UL),
 	getObjectLocationPEP(ObjName, OL),
 	format(atom(Cond), 'is_same_site(~a,~a)', [UL, OL]),
 	pep_test(User, Operations, ObjName, Cond, Res).
-	% http_get('http://127.0.0.1:8001/paapi/loadpol?policyfile=../POLICIES/business_hours.pl&token=admin_token', _, []),
-	% http_get('http://127.0.0.1:8001/paapi/setpol?policy=business_hours&token=admin_token', _, []),
-	% pep_test(User, Operations, ObjName, 'is_business_hours', Res2),
-	% (and(Res, Res2)) -> writeln('Access granted') ; writeln('Access denied').
+
+/* With u3 instead of u1 */
+peapi_test1(ObjName, Operations):-
+	User = u3,
+	getUserLocationPEP(User, UL),
+	getObjectLocationPEP(ObjName, OL),
+	format(atom(Cond), 'is_same_site(~a,~a)', [UL, OL]),
+	pep_test(User, Operations, ObjName, Cond, Res).
+
+/* Using the combine_cond_PEP policy where two conditions is combined into one */
+peapi_test2(ObjName, Operations):-
+	User = u1,
+	getUserLocationPEP(User, UL),
+	getObjectLocationPEP(ObjName, OL),
+	format(atom(Cond), 'site_and_business(~a,~a)', [UL, OL]),
+	pep_test(User, Operations, ObjName, Cond, Res).
+
+and(true,true).
+/* Combines the results from two access calls, two grants = grant, otherwise deny (Might not follow NGAC) */
+peapi_test3(ObjName, Operations):-
+	User = u1,
+	getUserLocationPEP(User, UL),
+	getObjectLocationPEP(ObjName, OL),
+	format(atom(Cond), 'is_same_site(~a,~a)', [UL, OL]),
+	pep_test(User, Operations, ObjName, Cond, Res),
+	http_get('http://127.0.0.1:8001/paapi/loadpol?policyfile=POLICIES/business_hours.pl&token=admin_token', _, []),
+	http_get('http://127.0.0.1:8001/paapi/setpol?policy=business_hours&token=admin_token', _, []),
+	pep_test(User, Operations, ObjName, 'is_business_hours', Res2),
+	(and(Res, Res2)) -> writeln('Granted') ; writeln('Denied').
 
 /* Used to easier test the PEP from sh script */
 pep_test(User, Op, Object, Cond, Result) :-
