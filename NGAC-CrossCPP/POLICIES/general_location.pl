@@ -22,7 +22,6 @@ policy(general_cond_location, 'Defining Objects Cond', [
 	assign('SiteC', 'Sites'),
 
 	assign('Sites', 'Defining'),
-	%assign('Sites', 'PM'),
 	assign('Defining', 'PM'),
 
 	cond(is_same_location(_, _), [

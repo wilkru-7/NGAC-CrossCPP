@@ -9,7 +9,7 @@
 
 condition_variable(weekday:boolean).
 condition_variable(business:boolean).
-%condition_variable(is_business_hours:boolean).
+condition_variable(is_business_hours:boolean).
 %condition_variable(condVar1:number).
 %condition_variable(condVar2:name).
 %condition_variable(condVar3:boolean).
@@ -79,8 +79,11 @@ is_business_hours :-
     condition_variable_value(hour_now, Hour),
     Hour =< 18, Hour >= 7.
 
+/* Checks if user and objects is at same location*/
+is_same_location(Location, Location).
+
 /* Checks if user and objects is at same site, retrives location from files from Json/ folder */
-is_same_location(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).
+% is_same_location(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).
 
 /* Would be used if PEP retrives location */
 is_same_site(Site, Site).
