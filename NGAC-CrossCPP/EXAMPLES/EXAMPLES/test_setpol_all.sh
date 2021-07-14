@@ -9,6 +9,21 @@ curl -s -G "http://127.0.0.1:8001/paapi/loadpol" --data-urlencode "policyfile=EX
 curl -s -G "http://127.0.0.1:8001/paapi/loadpol" --data-urlencode "policyfile=EXAMPLES/EXAMPLES/read_file.pl" --data-urlencode "token=admin_token"
 
 echo ''
+echo 'Load conditions'
+curl -s -G "http://127.0.0.1:8001/paapi/loadcondi" --data-urlencode "cond_elements=[
+	condition_predicate(is_same_location,[name, name]),
+	(is_same_location(LocationA,LocationB) :- LocationA == LocationB)
+	]" --data-urlencode "token=admin_token"
+# Does not work to write "is_same_location(Location, Location)." here.
+
+curl -s -G "http://127.0.0.1:8001/paapi/loadcondi" --data-urlencode "cond_elements=[
+	condition_predicate(is_business_hours,[]),
+	(is_business_hours :- condition_variable_value(hour_now,Hour), Hour =< 18, Hour >= 7)
+	]" --data-urlencode "token=admin_token"
+# Raises 'Internal server error: compound_name_arity/3: Type error: `compound' expected, found `is_business_hours' (an atom)' but works. 
+
+
+echo ''
 echo 'Set the policy to book_lift '
 curl -s -G "http://127.0.0.1:8001/paapi/setpol?policy=all" --data-urlencode "token=admin_token"
 
