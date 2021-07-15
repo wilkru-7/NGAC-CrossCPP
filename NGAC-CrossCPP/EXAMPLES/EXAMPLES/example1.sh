@@ -1,5 +1,7 @@
 # Authors: André Christofferson & Wilma Krutrök
 
+# In this example we test three different polices that work as intended on their own.
+
 #Here we load all the policies that will be used in following test example
 echo 'Load policies'
 curl -s -G "http://127.0.0.1:8001/paapi/loadpol" --data-urlencode "policyfile=EXAMPLES/EXAMPLES/book_lift.pl" --data-urlencode "token=admin_token"
