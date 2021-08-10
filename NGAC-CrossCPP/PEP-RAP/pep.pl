@@ -35,7 +35,7 @@ pep_server(Port) :- http_server(http_dispatch, [port(Port)]).
 :- http_handler(root(peapi/getObject), peapi_dispatch(getObject), [prefix]).
 :- http_handler(root(peapi/putObject), peapi_dispatch(putObject), [prefix]).
 /* WE ADDED THESE */
-:- http_handler(root(peapi/book), peapi_dispatch(book), [prefix]).
+:- http_handler(root(peapi/book_PEP), peapi_dispatch(book_PEP), [prefix]).
 :- http_handler(root(peapi/access), peapi_dispatch(access), [prefix]).
 :- http_handler(root(peapi/test1), peapi_dispatch(test1), [prefix]).
 :- http_handler(root(peapi/test2), peapi_dispatch(test2), [prefix]).
@@ -52,7 +52,7 @@ peapi(closeObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjNa
 peapi(getObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 peapi(putObject,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 /* WE ADDED THESE */
-peapi(book,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
+peapi(book_PEP,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 peapi(access,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 peapi(test1,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
 peapi(test2,[objname(ObjName,[atom]),operations(Operations,[atom])],[ObjName,Operations]).
@@ -89,7 +89,7 @@ peapi_dispatch(API,Request) :-
 %       return 'Op on Object denied'
 
 /* WE ADDED THESE */
-peapi_book(ObjName, Operations):-
+peapi_book_PEP(ObjName, Operations):-
 	pep(Operations, ObjName, "").
 
 peapi_book_PDP(ObjName, Operations):-
@@ -151,7 +151,7 @@ pep_test(User, Op, Object, Cond, Result) :-
 pep(Op,Object,Data) :-
 	PDP='http://127.0.0.1:8001/pqapi/',
 	% dummy arguments for demonstration
-	U=u2,
+	U=u1,
 	%U1=u2, % from the session environment
 	AR=Op, O=Object, % from the request
 	%format(atom(O1), ~a, [Object]),
@@ -160,7 +160,7 @@ pep(Op,Object,Data) :-
 	%term_to_atom(OL, OLNew),
 	%term_to_atom(UL, ULNew),
 	%format(atom(Query),'access?user=~a&ar=~a&object=~a',[U,AR,O]),
-	format(atom(Query),'access?user=~a&ar=~a&object=~a&cond=is_same_site(~a,~a)',[U,AR,O,UL,OL]),
+	format(atom(Query),'access?user=~a&ar=~a&object=~a&cond=is_same_location(~a,~a)',[U,AR,O,UL,OL]),
 	atom_concat(PDP,Query,PDPq),
 	
 	% e.g. PDPq='http://127.0.0.1:8001/pqapi/access?user=u1&ar=w&object=o2'
@@ -176,7 +176,7 @@ pep(Op,Object,Data) :-
 pdp(Op,Object,Data) :-
 	PDP='http://127.0.0.1:8001/pqapi/',
 	% dummy arguments for demonstration
-	U=u2,
+	U=u1,
 	%U1=u2, % from the session environment
 	AR=Op, O=Object, % from the request
 	%format(atom(O1), ~a, [Object]),

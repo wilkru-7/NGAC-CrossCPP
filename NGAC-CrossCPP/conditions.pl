@@ -83,7 +83,7 @@ is_business_hours :-
 is_same_location(Location, Location).
 
 /* Checks if user and objects is at same site, retrives location from files from Json/ folder */
-% is_same_location(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).
+is_same_location(User, Object) :- getUserLocation(User, Site), getObjectLocation(Object, Site).
 
 /* Would be used if PEP retrives location */
 is_same_site(Site, Site).

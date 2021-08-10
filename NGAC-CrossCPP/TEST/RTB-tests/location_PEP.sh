@@ -15,12 +15,12 @@ curl -s -G "http://127.0.0.1:8001/paapi/setpol?policy=combined_policies" --data-
 echo ''
 echo 'PEP access - is_same_site for u1'
 echo 'Set Access query -  G D D'
-curl -s "http://127.0.0.1:8005/peapi/book?objname=o1&operations=book"
-curl -s "http://127.0.0.1:8005/peapi/book?objname=o2&operations=book"
-curl -s "http://127.0.0.1:8005/peapi/book?objname=o3&operations=book"
+curl -s "http://127.0.0.1:8005/peapi/book_PEP?objname=o1&operations=book"
+curl -s "http://127.0.0.1:8005/peapi/book_PEP?objname=o2&operations=book"
+curl -s "http://127.0.0.1:8005/peapi/book_PEP?objname=o3&operations=book"
 
 echo ''
 echo 'Stressing '
-curl -s "http://127.0.0.1:8005/peapi/book?objname=o1&operations=book"
-curl -s "http://127.0.0.1:8005/peapi/book?objname=o2&operations=book"
-curl -s "http://127.0.0.1:8005/peapi/book?objname=o3&operations=book"
+curl -s "http://127.0.0.1:8005/peapi/book_PEP?objname=o1&operations=book"
+curl -s "http://127.0.0.1:8005/peapi/book_PEP?objname=o2&operations=book"
+curl -s "http://127.0.0.1:8005/peapi/book_PEP?objname=o3&operations=book"

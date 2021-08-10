@@ -1,5 +1,10 @@
 # Authors: André Christofferson & Wilma Krutrök
 
+# This example illustrates how we would want to combine two policies with the same 
+# asocciates but different conditions. Here we would want both conditions to be fulfilled
+# in order to get granted access but as it is now only the condition "is_business_hours" is
+# considered in the policy.
+
 #Here we load all the policies that will be used in following test example
 echo 'Load policies'
 curl -s -G "http://127.0.0.1:8001/paapi/loadpol" --data-urlencode "policyfile=EXAMPLES/EXAMPLES/book_lift.pl" --data-urlencode "token=admin_token"
